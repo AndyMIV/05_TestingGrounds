@@ -13,19 +13,12 @@ class S05_TESTINGGROUNDS_API UPatrolRoute : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UPatrolRoute();
+	TArray<AActor*> GetPatrolPoints() const;
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
+private:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol Points")
-		TArray<AActor*> PatrolPointActorsCPP;
+		TArray<AActor*> PatrolPointActors;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 	
 };

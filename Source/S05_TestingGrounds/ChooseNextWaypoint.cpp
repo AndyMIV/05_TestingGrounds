@@ -2,7 +2,6 @@
 
 #include "S05_TestingGrounds.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "PatrollingGuard.h"  // think about removing
 #include "PatrolRoute.h"
 #include "AIController.h"
 #include "ChooseNextWaypoint.h"

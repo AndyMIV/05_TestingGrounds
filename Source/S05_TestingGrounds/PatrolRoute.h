@@ -20,7 +20,7 @@ public:
 
 
 private:
-	UPROPERTY(EditInstanceOnly, Category = "Patrol Points")
+	UPROPERTY(EditAnywhere, Category = "Patrol Points")
 		TArray<AActor*> PatrolPointActors;
 
 	

@@ -26,11 +26,16 @@ class AFirstPersonCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	class AGun* Gun;
 
 public:
 	AFirstPersonCharacter();
+
+	// forward declaration: class AGun
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		TSubclassOf<class AGun> GunBlueprint;
+
+private:
+	class AGun* Gun;
 
 protected:
 	virtual void BeginPlay();

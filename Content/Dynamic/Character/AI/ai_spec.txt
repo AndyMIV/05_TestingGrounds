@@ -1,0 +1,4 @@
+If i see the enemy and am in range, shoot at the enemy
+If I see the emeny, move within range of the enemy. 
+If there is no enemy and we know where their last known location, visit that location
+Else go to the next patrol point

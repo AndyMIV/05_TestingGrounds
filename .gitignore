@@ -13,3 +13,9 @@ Saved
 *.xcworkspace
 Content/Dynamic/Levels/FirstPersonExampleMap_BuiltData.uasset
 *_BuildData.uasset
+Content/Dynamic/Geometry/TestingGroundPack/GrassPack/Textures
+Content/Dynamic/Geometry/TestingGroundPack/IndustryPropsPack4/Textures
+Content/Dynamic/Geometry/TestingGroundPack/RockPackProV1/Textures
+Content/Dynamic/Geometry/TestingGroundPack/RockPackProV1/Rock01/Textures
+Content/Dynamic/Geometry/TestingGroundPack/RockPackProV1/Rock05/Textures
+Content/Dynamic/Geometry/TestingGroundPack/RockPackProV1/Rock17/Textures

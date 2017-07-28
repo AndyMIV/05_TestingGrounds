@@ -43,9 +43,17 @@ void AMannequin::BeginPlay()
 		GunBlueprint
 		);
 
-	Gun->AttachToComponent(MeshFP, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+
+	if (IsPlayerControlled()) {
+		Gun->AttachToComponent(MeshFP, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
+	else {
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+	}
 	// setting animation for gun - generally this should be made as a setter/getter if this will be used alot
-	Gun->AnimInstance = GetMesh()->GetAnimInstance();  // allows the gun to animate our mesh (such as kickback)
+
+	Gun->AnimInstanceTP = GetMesh()->GetAnimInstance();  // allows the gun to animate our mesh (such as kickback)
+	Gun->AnimInstanceFP = MeshFP->GetAnimInstance();
 
 	// we do this here because gun will not exist at compile time
 	if (InputComponent != NULL) { // AI won't have inputcomponent
@@ -66,6 +74,15 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+// reattaching gun to TP
+void AMannequin::UnPossessed() {
+	Super::UnPossessed();
+
+	if (Gun != nullptr) {
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+	}
 }
 
 void AMannequin::PullTrigger() {

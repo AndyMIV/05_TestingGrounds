@@ -25,6 +25,8 @@ public:
 	// Sets default values for this character's properties
 	AMannequin();
 
+	virtual void UnPossessed() override;
+
 	// forward declaration: class AGun
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<class AGun> GunBlueprint;

@@ -63,7 +63,7 @@ void AFirstPersonCharacter::BeginPlay()
 
 	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	// setting animation for gun - generally this should be made as a setter/getter if this will be used alot
-	Gun->AnimInstance = Mesh1P->GetAnimInstance();
+	Gun->AnimInstanceFP = Mesh1P->GetAnimInstance();
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
 	if (bUsingMotionControllers)

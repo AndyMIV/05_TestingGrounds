@@ -45,7 +45,7 @@ void AMannequin::BeginPlay()
 
 	Gun->AttachToComponent(MeshFP, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	// setting animation for gun - generally this should be made as a setter/getter if this will be used alot
-	Gun->AnimInstance = MeshFP->GetAnimInstance();  // allows the gun to animate our mesh (such as kickback)
+	Gun->AnimInstance = GetMesh()->GetAnimInstance();  // allows the gun to animate our mesh (such as kickback)
 
 	// we do this here because gun will not exist at compile time
 	if (InputComponent != NULL) { // AI won't have inputcomponent

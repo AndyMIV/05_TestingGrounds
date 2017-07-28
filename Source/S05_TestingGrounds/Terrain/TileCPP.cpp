@@ -12,14 +12,25 @@ ATileCPP::ATileCPP()
 
 }
 
-void ATileCPP::PlaceActors() {
+void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn) {
 	// Min and max of fvector (magic numbers)
-	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 200.0, 0));
+	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 2000.0, 0));
 	FVector SpawnPoint = FMath::RandPointInBox(Bounds);
 
-	for (int loop = 0; loop < 10; loop++) {
+	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
+
+	for (int loop = 0; loop < NumberToSpawn; loop++) {
 		FVector SpawnPoint = FMath::RandPointInBox(Bounds);
 		UE_LOG(LogTemp, Warning, TEXT("Spawn point: %s"), *SpawnPoint.ToString());
+		AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ToSpawn);
+
+		SpawnedActor->SetActorRelativeLocation(SpawnPoint);
+		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+
+
+			
+			
+
 	}
 
 }

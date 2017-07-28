@@ -46,6 +46,11 @@ void AMannequin::BeginPlay()
 	Gun->AttachToComponent(MeshFP, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	// setting animation for gun - generally this should be made as a setter/getter if this will be used alot
 	Gun->AnimInstance = MeshFP->GetAnimInstance();  // allows the gun to animate our mesh (such as kickback)
+
+	// we do this here because gun will not exist at compile time
+	if (InputComponent != NULL) { // AI won't have inputcomponent
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
+	}
 	
 }
 
@@ -56,15 +61,14 @@ void AMannequin::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
+// Called to bind functionality to input (if possessed by a player, then will bind) - happens before beginplay
 void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
-void AMannequin::Fire() {
-	UE_LOG(LogTemp, Warning, TEXT("I Fired"));
+void AMannequin::PullTrigger() {
 	Gun->OnFire();
 }
 

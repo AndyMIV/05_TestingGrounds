@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "S05_TestingGrounds.h"
+#include "DrawDebugHelpers.h"
 #include "TileCPP.h"
 
 
@@ -14,7 +15,7 @@ ATileCPP::ATileCPP()
 
 void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn) {
 	// Min and max of fvector (magic numbers)
-	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 2000.0, 0));
+	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 2000.0, 0.0));
 	FVector SpawnPoint = FMath::RandPointInBox(Bounds);
 
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
@@ -28,6 +29,8 @@ void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpa
 		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 
 
+		CastSphere(SpawnPoint, 100);
+
 			
 			
 
@@ -39,6 +42,8 @@ void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpa
 void ATileCPP::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 	
 }
 
@@ -47,5 +52,32 @@ void ATileCPP::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+bool ATileCPP::CastSphere(FVector Location, float Radius) {
+
+	FHitResult HitResult;
+
+	// we use channel so we can configuew what it hits later
+	bool HasHit = GetWorld()->SweepSingleByChannel(HitResult, 
+		Location, 
+		Location, 
+		FQuat::Identity, 
+		ECollisionChannel::ECC_Camera, 
+		FCollisionShape::MakeSphere(Radius));
+
+
+	// ternary operator
+	FColor ResultColor = HasHit ? FColor::Red:FColor::Green;
+		DrawDebugSphere(
+			GetWorld(),
+			Location,
+			Radius,
+			32,
+			ResultColor,
+			true
+		);
+
+	return HasHit;
 }
 

@@ -13,29 +13,49 @@ ATileCPP::ATileCPP()
 
 }
 
-void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn) {
-	// Min and max of fvector (magic numbers)
-	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 2000.0, 0.0));
-	FVector SpawnPoint = FMath::RandPointInBox(Bounds);
+void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius) {
 
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
+	UE_LOG(LogTemp, Warning, TEXT("I will spawn %i actors"), NumberToSpawn);
 
 	for (int loop = 0; loop < NumberToSpawn; loop++) {
-		FVector SpawnPoint = FMath::RandPointInBox(Bounds);
-		UE_LOG(LogTemp, Warning, TEXT("Spawn point: %s"), *SpawnPoint.ToString());
-		AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ToSpawn);
+		FVector SpawnPoint;
+			if (FindEmptyLocation(SpawnPoint, Radius)) {
+				PlaceTheActor(ToSpawn, SpawnPoint);
+		}
 
-		SpawnedActor->SetActorRelativeLocation(SpawnPoint);
-		SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-
-
-		CastSphere(SpawnPoint, 100);
+	//	FVector SpawnPoint = FMath::RandPointInBox(Bounds);
+	//	UE_LOG(LogTemp, Warning, TEXT("Spawn point: %s"), *SpawnPoint.ToString());
 
 			
 			
 
 	}
 
+}
+
+bool ATileCPP::FindEmptyLocation(FVector& SpawnPoint, float Radius) {
+	// Min and max of fvector (magic numbers)
+	auto Bounds = FBox(FVector(0.0, -2000.0, 0.0), FVector(4000.0, 2000.0, 0.0));
+
+	int MAX_ATTEMPTS = 100;
+	for (size_t i = 0; i < MAX_ATTEMPTS; i++) {
+		FVector CandidatePoint = FMath::RandPointInBox(Bounds);
+		if (!CastSphere(CandidatePoint, Radius)) {
+			SpawnPoint = CandidatePoint;
+			return true;
+		}
+	}
+
+
+	return false;
+}
+
+
+void ATileCPP::PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint) {
+	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ToSpawn);
+	SpawnedActor->SetActorRelativeLocation(SpawnPoint);
+	SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 }
 
 // Called when the game starts or when spawned
@@ -58,10 +78,14 @@ bool ATileCPP::CastSphere(FVector Location, float Radius) {
 
 	FHitResult HitResult;
 
+	// 
+	FVector GlobalLocation = ActorToWorld().TransformPosition(Location);
+
 	// we use channel so we can configuew what it hits later
-	bool HasHit = GetWorld()->SweepSingleByChannel(HitResult, 
-		Location, 
-		Location, 
+	bool HasHit = GetWorld()->SweepSingleByChannel(
+		HitResult, 
+		GlobalLocation, // was just Location, replaced to make positions global
+		GlobalLocation,
 		FQuat::Identity, 
 		ECollisionChannel::ECC_GameTraceChannel2, // find & configure in system folder: config/DefaultEngine.ini
 		FCollisionShape::MakeSphere(Radius));
@@ -71,7 +95,7 @@ bool ATileCPP::CastSphere(FVector Location, float Radius) {
 	FColor ResultColor = HasHit ? FColor::Red:FColor::Green;
 		DrawDebugCapsule(     // can also use DrawDebugSphere (simpler code)
 			GetWorld(),
-			Location,
+			GlobalLocation,
 			0,
 			Radius,
 			FQuat::Identity,

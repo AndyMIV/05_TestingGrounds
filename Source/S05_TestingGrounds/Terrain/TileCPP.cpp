@@ -63,19 +63,21 @@ bool ATileCPP::CastSphere(FVector Location, float Radius) {
 		Location, 
 		Location, 
 		FQuat::Identity, 
-		ECollisionChannel::ECC_Camera, 
+		ECollisionChannel::ECC_GameTraceChannel2, // find & configure in system folder: config/DefaultEngine.ini
 		FCollisionShape::MakeSphere(Radius));
 
 
 	// ternary operator
 	FColor ResultColor = HasHit ? FColor::Red:FColor::Green;
-		DrawDebugSphere(
+		DrawDebugCapsule(     // can also use DrawDebugSphere (simpler code)
 			GetWorld(),
 			Location,
+			0,
 			Radius,
-			32,
+			FQuat::Identity,
 			ResultColor,
-			true
+			true,
+			100
 		);
 
 	return HasHit;

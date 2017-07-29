@@ -97,17 +97,18 @@ bool ATileCPP::CastSphere(FVector Location, float Radius) {
 
 
 	// ternary operator
-	FColor ResultColor = HasHit ? FColor::Red:FColor::Green;
-		DrawDebugCapsule(     // can also use DrawDebugSphere (simpler code)
-			GetWorld(),
-			GlobalLocation,
-			0,
-			Radius,
-			FQuat::Identity,
-			ResultColor,
-			true,
-			100
-		);
+
+	//FColor ResultColor = HasHit ? FColor::Red:FColor::Green;
+	//	DrawDebugCapsule(     // can also use DrawDebugSphere (simpler code)
+	//		GetWorld(),
+	//		GlobalLocation,
+	//		0,
+	//		Radius,
+	//		FQuat::Identity,
+	//		ResultColor,
+	//		true,
+	//		100
+	//	);
 
 	return HasHit;
 }

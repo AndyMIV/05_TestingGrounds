@@ -13,15 +13,18 @@ ATileCPP::ATileCPP()
 
 }
 
-void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius) {
+void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale) {
 
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
 	UE_LOG(LogTemp, Warning, TEXT("I will spawn %i actors"), NumberToSpawn);
 
 	for (int loop = 0; loop < NumberToSpawn; loop++) {
 		FVector SpawnPoint;
+		float RandomScale = FMath::RandRange(MinScale, MaxScale);
+		Radius *= RandomScale;
 			if (FindEmptyLocation(SpawnPoint, Radius)) {
-				PlaceTheActor(ToSpawn, SpawnPoint);
+				float RandomRotation = FMath::RandRange(-180.0f, 180.0f);
+				PlaceTheActor(ToSpawn, SpawnPoint, RandomRotation, RandomScale);
 		}
 
 	//	FVector SpawnPoint = FMath::RandPointInBox(Bounds);
@@ -52,10 +55,12 @@ bool ATileCPP::FindEmptyLocation(FVector& SpawnPoint, float Radius) {
 }
 
 
-void ATileCPP::PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint) {
+void ATileCPP::PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale) {
 	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ToSpawn);
 	SpawnedActor->SetActorRelativeLocation(SpawnPoint);
 	SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	SpawnedActor->SetActorRotation(FRotator(0, Rotation, 0));
+	SpawnedActor->SetActorScale3D(FVector(Scale));
 }
 
 // Called when the game starts or when spawned

@@ -6,7 +6,7 @@
 #include "SpawnGrass.generated.h"
 
 /**
- * 
+ * Code made by me
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class S05_TESTINGGROUNDS_API USpawnGrass : public UHierarchicalInstancedStaticMeshComponent

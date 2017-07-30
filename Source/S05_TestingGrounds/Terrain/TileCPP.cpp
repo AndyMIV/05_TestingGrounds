@@ -67,7 +67,6 @@ void ATileCPP::PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, fl
 void ATileCPP::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	
 }

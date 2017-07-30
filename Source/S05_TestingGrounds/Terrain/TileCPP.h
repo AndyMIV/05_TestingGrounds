@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "TileCPP.generated.h"
 
+class UActorPool;
+
 UCLASS()
 class S05_TESTINGGROUNDS_API ATileCPP : public AActor
 {
@@ -26,10 +28,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// setting up the reference for the pool class
+	UFUNCTION(BlueprintCallable, Category = "Pool")
+		void SetPool(UActorPool* Pool);
+
 private:
 	bool CastSphere(FVector Location, float Radius);
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale);
+
+	UActorPool* Pool;
+	
 
 	
 	

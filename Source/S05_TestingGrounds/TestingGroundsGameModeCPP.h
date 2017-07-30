@@ -12,12 +12,21 @@ UCLASS()
 class S05_TESTINGGROUNDS_API ATestingGroundsGameModeCPP : public AS05_TestingGroundsGameMode
 {
 	GENERATED_BODY()
-	
-	
-public:
-	void AddToPool(class ANavMeshBoundsVolume *VolumeToAdd);
+
+public: 
+	ATestingGroundsGameModeCPP();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void PopulateBoundsVolumePool();
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		UActorPool* GetPool();
+	
+private:
+	void AddToPool(class ANavMeshBoundsVolume *VolumeToAdd);
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pool")
+		class UActorPool* NavMeshBoundsVolumePool;
 	
 };

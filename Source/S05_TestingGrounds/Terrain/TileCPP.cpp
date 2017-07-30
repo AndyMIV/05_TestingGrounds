@@ -2,6 +2,7 @@
 
 #include "S05_TestingGrounds.h"
 #include "DrawDebugHelpers.h"
+#include "ActorPool.h"
 #include "TileCPP.h"
 
 
@@ -110,5 +111,10 @@ bool ATileCPP::CastSphere(FVector Location, float Radius) {
 	//	);
 
 	return HasHit;
+}
+
+void ATileCPP::SetPool(UActorPool* InPool) {
+	Pool = InPool;
+	UE_LOG(LogTemp, Warning, TEXT("Setting pool %s"), *(InPool->GetName()));
 }
 

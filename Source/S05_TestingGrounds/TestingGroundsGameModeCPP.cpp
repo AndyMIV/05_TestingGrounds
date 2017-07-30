@@ -3,8 +3,12 @@
 #include "S05_TestingGrounds.h"
 #include "AI/Navigation/NavMeshBoundsVolume.h"
 #include "EngineUtils.h"  // needed for AActorIterator
+#include "ActorPool.h"
 #include "TestingGroundsGameModeCPP.h"
 
+ATestingGroundsGameModeCPP::ATestingGroundsGameModeCPP() {
+	NavMeshBoundsVolumePool = CreateDefaultSubobject<UActorPool>("Nav Mesh Bounds Volume Pool");
+}
 
 void ATestingGroundsGameModeCPP::PopulateBoundsVolumePool() {
 
@@ -25,5 +29,11 @@ void ATestingGroundsGameModeCPP::PopulateBoundsVolumePool() {
 
 void ATestingGroundsGameModeCPP::AddToPool(ANavMeshBoundsVolume *VolumeToAdd) {
 	UE_LOG(LogTemp, Warning, TEXT("Found Actor in AddToPool: %s"), *VolumeToAdd->GetName());
+}
+
+
+// depreceated function (my way of setting GetPool(). get gamemode from tile, cast it, and set the variable
+UActorPool* ATestingGroundsGameModeCPP::GetPool() {
+	return NavMeshBoundsVolumePool;
 }
 

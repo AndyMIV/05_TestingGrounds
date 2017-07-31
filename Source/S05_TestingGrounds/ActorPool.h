@@ -20,6 +20,9 @@ public:
 	void Add(AActor* ActorToAdd);
 
 private:
+	// depreceated - This was my challenge implementation (using a single variable instead of a TArray)
 	AActor* PoolActor = nullptr;
+
+	TArray<AActor*> Pool;
 	
 };

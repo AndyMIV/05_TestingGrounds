@@ -5,6 +5,16 @@
 #include "GameFramework/Actor.h"
 #include "TileCPP.generated.h"
 
+USTRUCT()
+struct FSpawnPosition {
+	GENERATED_USTRUCT_BODY()
+
+
+	FVector Location; 
+	float Rotation; 
+	float Scale;
+};
+
 class UActorPool;
 
 UCLASS()
@@ -45,8 +55,9 @@ public:
 private:
 	bool CastSphere(FVector Location, float Radius);
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
-	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale);
+	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, TArray<float> PositionActor);
 	void PositionNavMeshBoundsVolume();
+	TArray<float> GenerateSpawnPositions(FSpawnPosition SpawnPosition, int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale);
 
 	UActorPool* Pool;
 	AActor* NavMeshBoundsVolume = nullptr;

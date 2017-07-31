@@ -15,15 +15,25 @@ struct FSpawnPosition {
 	float Scale;
 };
 
-USTRUCT()
-struct FSpawnVariables {
+// BlueprintType not necesarilly needed. just split the pin in BP
+USTRUCT(BlueprintType)
+struct FInputVariables {
 	GENERATED_USTRUCT_BODY()
 
-	int MinSpawn = 1;
-	int MaxSpawn = 1;
-	float Radius = 500;
-	float MaxScale = 1;
-	float MinScale = 1;
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+		int MinSpawn = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+		int MaxSpawn = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+		float Radius = 500;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+		float MaxScale = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+		float MinScale = 1;
 
 
 };
@@ -40,7 +50,7 @@ public:
 	ATileCPP();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500, float MaxScale = 1, float MinScale = 1);
+		void PlaceActors(TSubclassOf<AActor> ToSpawn, FInputVariables InputVariables);
 
 
 protected:
@@ -70,7 +80,7 @@ private:
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition PositionActor);
 	void PositionNavMeshBoundsVolume();
-	TArray<FSpawnPosition> GenerateSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale);
+	TArray<FSpawnPosition> GenerateSpawnPositions(FInputVariables InputVariables);
 
 	UActorPool* Pool;
 	AActor* NavMeshBoundsVolume = nullptr;

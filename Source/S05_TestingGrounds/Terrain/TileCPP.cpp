@@ -20,8 +20,8 @@ ATileCPP::ATileCPP()
 
 }
 
-void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale) {
-	TArray <FSpawnPosition> ArrSpawnPosition = GenerateSpawnPositions(MinSpawn, MaxSpawn, Radius, MaxScale, MinScale);
+void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, FInputVariables InputVariables) {
+	TArray <FSpawnPosition> ArrSpawnPosition = GenerateSpawnPositions(InputVariables);
 
 	for (FSpawnPosition SpawnPosition : ArrSpawnPosition) {
 		PlaceTheActor(ToSpawn, SpawnPosition);
@@ -35,18 +35,18 @@ void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpa
 
 }
 
-TArray<FSpawnPosition> ATileCPP::GenerateSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale) {
+TArray<FSpawnPosition> ATileCPP::GenerateSpawnPositions(FInputVariables InputVariables) {
 
 	TArray <FSpawnPosition> ArrSpawnPosition;
-	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
+	int NumberToSpawn = FMath::RandRange(InputVariables.MinSpawn, InputVariables.MaxSpawn);
 
 	for (int loop = 0; loop < NumberToSpawn; loop++) 
 	{
 		FSpawnPosition SpawnPosition;
-		SpawnPosition.Scale = FMath::RandRange(MinScale, MaxScale);
-		Radius *= SpawnPosition.Scale;
+		SpawnPosition.Scale = FMath::RandRange(InputVariables.MinScale, InputVariables.MaxScale);
+		float NewRadius= SpawnPosition.Scale * InputVariables.Radius;
 
-		if (FindEmptyLocation(SpawnPosition.Location, Radius)) 
+		if (FindEmptyLocation(SpawnPosition.Location, NewRadius))
 		{
 			SpawnPosition.Rotation = FMath::RandRange(-180.0f, 180.0f);
 			ArrSpawnPosition.Add(SpawnPosition);

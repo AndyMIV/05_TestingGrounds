@@ -5,6 +5,20 @@
 #include "ActorPool.h"
 #include "TileCPP.h"
 
+// There is a current problem in architecture. Because we are finding a collection of random locations and then spawning, it causes
+// the FindEmptyLocations to not keep track of places that will be taken up, thus causing meshes to collide (but they still spawn in because
+// of our faulty logic)
+
+// the way to make templates
+//template<class T>
+//T GetMax(T a, T b) {
+//	if (a > b) {
+//		return a;
+//	}
+//	else {
+//		return b;
+//	}
+//}
 
 // Sets default values
 ATileCPP::ATileCPP()

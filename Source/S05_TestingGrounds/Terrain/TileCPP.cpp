@@ -25,6 +25,7 @@ void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, FInputVariables InputVar
 
 	for (FSpawnPosition SpawnPosition : ArrSpawnPosition) {
 		PlaceTheActor(ToSpawn, SpawnPosition);
+		
 	}
 
 
@@ -32,6 +33,16 @@ void ATileCPP::PlaceActors(TSubclassOf<AActor> ToSpawn, FInputVariables InputVar
 	//	UE_LOG(LogTemp, Warning, TEXT("Spawn point: %s"), *SpawnPoint.ToString());
 	
 
+
+}
+
+void ATileCPP::PlaceAI(TSubclassOf<APawn> ToSpawn, FInputVariables InputVariables) {
+	TArray <FSpawnPosition> ArrSpawnPosition = GenerateSpawnPositions(InputVariables);
+
+	for (FSpawnPosition SpawnPosition : ArrSpawnPosition) {
+		PlaceTheAI(ToSpawn, SpawnPosition);
+
+	}
 
 }
 
@@ -83,6 +94,16 @@ void ATileCPP::PlaceTheActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition Positio
 	SpawnedActor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	SpawnedActor->SetActorRotation(FRotator(0, PositionActor.Rotation, 0));
 	SpawnedActor->SetActorScale3D(FVector(PositionActor.Scale));
+}
+
+void ATileCPP::PlaceTheAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition PositionActor) {
+	APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(ToSpawn);
+
+	SpawnedPawn->SetActorRelativeLocation(PositionActor.Location + FVector(0, 0, 200));
+	SpawnedPawn->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	SpawnedPawn->SetActorRotation(FRotator(0, PositionActor.Rotation, 0));
+	SpawnedPawn->SpawnDefaultController();
+	SpawnedPawn->Tags.Add(FName("Enemy"));
 }
 
 // Called when the game starts or when spawned

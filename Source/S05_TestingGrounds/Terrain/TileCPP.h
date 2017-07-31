@@ -52,6 +52,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void PlaceActors(TSubclassOf<AActor> ToSpawn, FInputVariables InputVariables);
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void PlaceAI(TSubclassOf<APawn> ToSpawn, FInputVariables InputVariables);
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -77,12 +80,19 @@ public:
 
 private:
 	bool CastSphere(FVector Location, float Radius);
+
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
+
 	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition PositionActor);
+
+	void PlaceTheAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition PositionActor);
+
 	void PositionNavMeshBoundsVolume();
+
 	TArray<FSpawnPosition> GenerateSpawnPositions(FInputVariables InputVariables);
 
 	UActorPool* Pool;
+
 	AActor* NavMeshBoundsVolume = nullptr;
 	
 

@@ -18,5 +18,8 @@ public:
 	AActor* Checkout();
 	void Return(AActor* ActorToReturn);
 	void Add(AActor* ActorToAdd);
+
+private:
+	AActor* PoolActor = nullptr;
 	
 };

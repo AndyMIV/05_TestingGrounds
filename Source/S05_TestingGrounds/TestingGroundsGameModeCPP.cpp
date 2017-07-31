@@ -28,6 +28,7 @@ void ATestingGroundsGameModeCPP::PopulateBoundsVolumePool() {
 
 
 void ATestingGroundsGameModeCPP::AddToPool(ANavMeshBoundsVolume *VolumeToAdd) {
+	NavMeshBoundsVolumePool->Add(VolumeToAdd);
 	UE_LOG(LogTemp, Warning, TEXT("Found Actor in AddToPool: %s"), *VolumeToAdd->GetName());
 }
 

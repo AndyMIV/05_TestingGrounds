@@ -26,10 +26,13 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector MinBoxSize;
+		FVector MinBoxSize;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector MaxBoxSize;
+		FVector MaxBoxSize;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+		FVector NavigationBoundsOffset;
 
 public:	
 	// Called every frame

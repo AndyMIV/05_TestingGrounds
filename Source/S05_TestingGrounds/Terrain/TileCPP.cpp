@@ -15,6 +15,8 @@ ATileCPP::ATileCPP()
 	MinBoxSize = FVector(0.0, -2000.0, 0.0);
 	MaxBoxSize = FVector(4000.0, 2000.0, 0.0);
 
+	NavigationBoundsOffset = FVector(2000, 0, 0);
+
 
 }
 
@@ -136,6 +138,10 @@ void ATileCPP::PositionNavMeshBoundsVolume()
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Checked out: %s"), *NavMeshBoundsVolume->GetName());
-	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
+
+
+	// update navigation system
+	GetWorld()->GetNavigationSystem()->Build();
 }
 

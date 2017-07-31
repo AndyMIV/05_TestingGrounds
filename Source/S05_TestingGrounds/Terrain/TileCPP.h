@@ -15,6 +15,19 @@ struct FSpawnPosition {
 	float Scale;
 };
 
+USTRUCT()
+struct FSpawnVariables {
+	GENERATED_USTRUCT_BODY()
+
+	int MinSpawn = 1;
+	int MaxSpawn = 1;
+	float Radius = 500;
+	float MaxScale = 1;
+	float MinScale = 1;
+
+
+};
+
 class UActorPool;
 
 UCLASS()
@@ -55,9 +68,9 @@ public:
 private:
 	bool CastSphere(FVector Location, float Radius);
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
-	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, TArray<float> PositionActor);
+	void PlaceTheActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition PositionActor);
 	void PositionNavMeshBoundsVolume();
-	TArray<float> GenerateSpawnPositions(FSpawnPosition SpawnPosition, int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale);
+	TArray<FSpawnPosition> GenerateSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MaxScale, float MinScale);
 
 	UActorPool* Pool;
 	AActor* NavMeshBoundsVolume = nullptr;
